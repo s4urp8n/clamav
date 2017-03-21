@@ -6,8 +6,6 @@ php:
 
 before_script:
   - composer self-update
-  - sudo apt-get update -y
-  - sudo apt-get upgrade -y
   - sudo apt-get install clamav -y
   - composer install
   - wget https://phar.phpunit.de/phpunit.phar
