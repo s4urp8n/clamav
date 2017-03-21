@@ -7,6 +7,7 @@ php:
 before_script:
   - composer self-update
   - sudo apt-get install clamav -y
+  - chmod 777  /var/log/clamav/freshclam.log
   - composer install
   - wget https://phar.phpunit.de/phpunit.phar
   - chmod 777 ./phpunit.phar
