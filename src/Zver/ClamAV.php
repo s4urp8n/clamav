@@ -29,7 +29,18 @@ namespace Zver {
 
             if (file_exists($fileName)) {
 
-                $output = StringHelper::load(Common::executeInSystem('clamscan --no-summary "' . $fileName . '"'));
+                $options = [
+                    '--disable-cache',
+                    '--no-summary',
+                    '--nocerts',
+                    '--stdout',
+                    '--detect-pua=no',
+                    '--detect-structured=no',
+                    '--remove=no',
+                    '--disable-pe-stats=no',
+                ];
+
+                $output = StringHelper::load(Common::executeInSystem('clamscan ' . implode(' ', $options) . ' "' . $fileName . '"'));
 
                 if ($output->getClone()
                            ->trimSpacesRight()
