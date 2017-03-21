@@ -24,42 +24,44 @@ namespace Zver {
 
         public static function isClean($fileName)
         {
-            static::checkInstallation();
-            static::update();
+            if (static::isClamScanInstalled() && static::isFreshClamInstalled()) {
 
-            if (file_exists($fileName)) {
+                static::update();
 
-                $options = [
-                    '--disable-cache',
-                    '--no-summary',
-                    '--nocerts',
-                    '--stdout',
-                    '--detect-pua=no',
-                    '--detect-structured=no',
-                    '--remove=no',
-                    '--disable-pe-stats=no',
-                ];
+                if (file_exists($fileName)) {
 
-                $output = StringHelper::load(Common::executeInSystem('clamscan ' . implode(' ', $options) . ' "' . $fileName . '"'));
+                    $options = [
+                        '--disable-cache',
+                        '--no-summary',
+                        '--nocerts',
+                        '--stdout',
+                        '--detect-pua=no',
+                        '--detect-structured=no',
+                        '--remove=no',
+                        '--disable-pe-stats=no',
+                    ];
 
-                if ($output->getClone()
-                           ->trimSpacesRight()
-                           ->trimSpacesLeft()
-                           ->isEndsWithIgnoreCase(': ok')
-                ) {
-                    return true;
-                } else {
+                    $output = StringHelper::load(Common::executeInSystem('clamscan ' . implode(' ', $options) . ' "' . $fileName . '"'));
 
-                    foreach (static::$cleanRegexps as $regexp) {
-                        if (preg_match($regexp, $output->get()) === 1) {
-                            return true;
+                    if ($output->getClone()
+                               ->trimSpacesRight()
+                               ->trimSpacesLeft()
+                               ->isEndsWithIgnoreCase(': ok')
+                    ) {
+                        return true;
+                    } else {
+
+                        foreach (static::$cleanRegexps as $regexp) {
+                            if (preg_match($regexp, $output->get()) === 1) {
+                                return true;
+                            }
                         }
+
                     }
 
+                    return $output->get();
+
                 }
-
-                return $output->get();
-
             }
 
             return false;
@@ -68,15 +70,8 @@ namespace Zver {
 
         public static function update()
         {
-            static::checkInstallation();
-
-            Common::executeInSystem('freshclam');
-        }
-
-        protected static function checkInstallation()
-        {
-            if (!static::isClamScanInstalled() || !static::isFreshClamInstalled()) {
-                throw  new \Exception('Freshclam or Clamscan is not installed!');
+            if (static::isClamScanInstalled() && static::isFreshClamInstalled()) {
+                Common::executeInSystem('freshclam');
             }
         }
 
