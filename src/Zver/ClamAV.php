@@ -77,12 +77,12 @@ namespace Zver {
 
         public static function isClamScanInstalled()
         {
-            return preg_match('/^clamav\s+\d+\.\d+\.\d+/i', trim(shell_exec('clamscan --version'))) === 1;
+            return preg_match('/\d+\.\d+\.\d+/i', trim(shell_exec('clamscan --version'))) === 1;
         }
 
         public static function isFreshClamInstalled()
         {
-            return preg_match('/^clamav\s+\d+\.\d+\.\d+/i', trim(shell_exec('freshclam --version'))) === 1;
+            return preg_match('/\d+\.\d+\.\d+/i', trim(shell_exec('freshclam --version'))) === 1;
         }
 
     }
