@@ -19,8 +19,8 @@
     }
   },
   "require": {
-    "zver/common": "^2.1",
-    "zver/string-helper": "^2.1"
+    "zver/common": "^3",
+    "zver/string-helper": "^2"
   },
   "require-dev": {
   }

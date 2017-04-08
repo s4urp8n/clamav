@@ -6,7 +6,7 @@ use Zver\Common;
 class ClamAVTest extends PHPUnit\Framework\TestCase
 {
 
-    use \Zver\Package\Test;
+    use \Zver\Package\Helper;
 
     public static function setUpBeforeClass()
     {
@@ -26,7 +26,7 @@ class ClamAVTest extends PHPUnit\Framework\TestCase
     public function testScan()
     {
         $regexp = '/EICAR/i';
-        $testFile = Common::getPackageTestFilePath('EICAR');
+        $testFile = static::getPackagePath('/tests/files/EICAR');
 
         $this->assertTrue(ClamAV::isClean(__FILE__));
         $this->assertFalse(ClamAV::isClean($testFile) === true);
