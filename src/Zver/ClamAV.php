@@ -28,6 +28,8 @@ namespace Zver {
 
                 static::update();
 
+                clearstatcache(true);
+
                 if (file_exists($fileName)) {
 
                     $options = [
