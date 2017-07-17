@@ -22,11 +22,14 @@ namespace Zver {
             return static::$cleanRegexps;
         }
 
+        public static function scan($filename)
+        {
+            return static::isClean($filename);
+        }
+
         public static function isClean($fileName)
         {
             if (static::isClamScanInstalled() && static::isFreshClamInstalled()) {
-
-                static::update();
 
                 clearstatcache(true);
 
